@@ -1,0 +1,25 @@
+name: Sync Fork
+
+on:
+  schedule:
+    - cron: "0 23 * * *" # run every hour
+
+env:
+  target_branch: ${{ secrets.target_branch && secrets.target_branch || 'master' }}
+
+jobs:
+  merge-upstream:
+    if: github.repository_owner != 'fanmingming'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: main # set the branch to merge to
+          fetch-depth: 0
+      - name: Merge Upstream main
+        uses: exions/merge-upstream@v1
+        with:
+          upstream: fanmingming/live # set the upstream repo
+          upstream-branch: main # set the upstream branch to merge from
+          branch: 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
